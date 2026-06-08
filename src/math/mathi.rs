@@ -1,16 +1,16 @@
 #![allow(dead_code)]
 
-use crate::math::numerics::UInt2;
+use glam::UVec2;
 
 /// Returns the xy coordinate of a specific index.
 #[inline]
-pub fn index_to_xy(index: u32, width: u32, height: u32) -> UInt2 {
+pub fn index_to_xy(index: u32, width: u32, height: u32) -> UVec2 {
     if index > width * height {
-        return UInt2::new(0, 0);
+        return UVec2::new(0, 0);
     }
     let x = index % width;
     let y = index / width;
-    UInt2::new(x, y)
+    UVec2::new(x, y)
 }
 
 /// Returns the index of a specific xy coordinate.
