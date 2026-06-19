@@ -6,17 +6,17 @@ pub struct Font {
 }
 
 impl Font {
-    pub fn new(glyph_height: u8) -> Self {
+    pub fn new() -> Self {
         Self {
             glyphs: HashMap::new(),
-            glyph_height,
+            glyph_height: 0,
         }
     }
 
-    pub fn load_from_file(path: &str, glyph_height: u8) -> Self {
+    pub fn load_from_file(path: &str) -> Self {
         let content = std::fs::read_to_string(path).expect("Failed to read font file");
 
-        let mut font = Self::new(glyph_height);
+        let mut font = Self::new();
         font.parse(&content);
         font
     }
@@ -24,14 +24,19 @@ impl Font {
     fn parse(&mut self, input: &str) {
         let mut lines = input.lines().peekable();
 
+        let header = lines.next().expect("missing glyph height header");
+
+        self.glyph_height = header
+            .strip_prefix("glyph_height:")
+            .expect("expected glyph height header")
+            .trim()
+            .parse()
+            .expect("invalid glyph height");
+
         while let Some(line) = lines.next() {
             let line = line.trim();
 
-            if line.is_empty() {
-                continue;
-            }
-
-            if !line.starts_with('\'') {
+            if line.is_empty() || !line.starts_with('\'') {
                 continue;
             }
 
