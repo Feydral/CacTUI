@@ -68,4 +68,4 @@ canvas.end();
 ## Dependencies
 
 - [`crossterm`](https://github.com/crossterm-rs/crossterm) — terminal control and input
-- [`glam`](https://github.com/bitshifter/glam-rs) — vector/matrix math
+- [`glam`](https://github.com/bitshifter/glam-rs) — vector math
