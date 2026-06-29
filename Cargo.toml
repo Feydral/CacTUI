@@ -1,7 +1,13 @@
 [package]
-name = "console_canvas"
+name = "termcanvas"
 version = "0.1.0"
 edition = "2024"
+description = "A lightweight Rust library for rendering pixels directly in the terminal."
+license = "MIT"
+repository = "https://github.com/Feydral/termcanvas"
+readme = "README.md"
+keywords = ["terminal", "canvas", "console"]
+categories = ["command-line-interface"]
 
 [dependencies]
 crossterm = "0.29.0"
