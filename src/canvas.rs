@@ -24,7 +24,7 @@ impl Canvas {
             width: w as u32,
             height: h as u32,
             pixels: vec![0; size],
-            out: Vec::with_capacity(w as usize * h_half as usize * 25),
+            out: Vec::with_capacity(w as usize * h_half as usize * 20),
         }
     }
 

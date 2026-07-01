@@ -109,6 +109,38 @@ canvas.draw(&font).at(10, 100).color(white).int(42, true); // always_show_sign: 
 
 **Alignment** is set with `.align(Align::Left)` (default), `.align(Align::Right)` or `.align(Align::Middle)`. With `Align::Left`, the `x`/`y` coordinates mark the top-left corner of the text. With `Align::Right`, they mark the top-right corner — useful for right-aligning numbers at a fixed column without calculating their width yourself. With `Align::Middle`, `x`/`y` mark the top-center — useful for centering headings or labels, for example at `width / 2` to center across the full canvas.
 
+### Resizing
+
+The canvas does not automatically track terminal resizes — call `Canvas::terminal_width()` / `Canvas::terminal_height()` each frame and compare them against the canvas's current size. If they differ, call `canvas.resize()` to reallocate the pixel buffer accordingly.
+
+```rust
+use termcanvas::prelude::*;
+use crossterm::event::KeyCode;
+
+let mut canvas = Canvas::new();
+let mut input = Input::new();
+
+loop {
+    input.update().unwrap();
+    if input.is_key_down(KeyCode::Esc) { break; }
+
+    let term_w = Canvas::terminal_width();
+    let term_h = Canvas::terminal_height();
+
+    if term_w != canvas.width() || term_h != canvas.height() {
+        canvas.resize(term_w, term_h);
+    }
+
+    canvas.clear(mathi::rgb_to_u32(0, 0, 0));
+    canvas.set_pixel(10, 10, mathi::rgb_to_u32(255, 100, 0));
+    canvas.render();
+}
+
+canvas.end();
+```
+
+> **Note:** `resize()` clears the pixel buffer, so any previously drawn content is lost — this is fine in practice since `clear()` is called every frame anyway, but keep it in mind if you rely on pixel state persisting across frames.
+
 ### Input
 
 Call `input.update()` once at the start of each frame to process all pending events. Key state is tracked across three separate sets, each reset every frame:
