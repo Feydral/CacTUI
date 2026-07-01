@@ -19,7 +19,7 @@ use crossterm::event::KeyCode;
 
 let mut canvas = Canvas::new();
 let mut input = Input::new();
-let font = Font::load_from_file("assets/default.tcfont");
+let font = Font::default();
 
 loop {
     input.update().unwrap();
@@ -82,15 +82,15 @@ canvas.end(); // restores cursor, clears alternate screen
 
 ### Font rendering
 
-Two bitmap fonts are included and ready to use — `default` and `default_bold`. Load them from the `assets/` folder and use the fluent draw builder to place text at any position and color.
+Two bitmap fonts are included and ready to use — `default` and `default_bold`. Use `Font::default()` or ``Font::default_bold()` (or load them from the `assets/` folder with `Font::load_from_file("assets/default.tcfont")`) and use the fluent draw builder to place text at any position and color.
 
 Text is drawn with `.text()`. For numbers, use `.uint()`, `.int()`, or `.float()` to render values directly without formatting them yourself.
 
 ```rust
 use termcanvas::prelude::*;
 
-let font = Font::load_from_file("assets/default.tcfont");
-let font_bold = Font::load_from_file("assets/default_bold.tcfont");
+let font = Font::default();
+let font_bold = Font::default_bold();
 
 let white = mathi::rgb_to_u32(255, 255, 255);
 let gray = mathi::rgb_to_u32(180, 180, 180);
